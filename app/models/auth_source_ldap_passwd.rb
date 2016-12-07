@@ -8,7 +8,11 @@ class AuthSourceLdapPasswd < AuthSourceLdap
 
     attrs = get_user_dn(user.login, password)
     if attrs && attrs[:dn]
-      ldap_con = initialize_ldap_con(self.account, self.account_password)
+      if self.account && self.account.include?("$login")
+        ldap_con = initialize_ldap_con(self.account.sub("$login", Net::LDAP::DN.escape(user.login)), password)
+      else
+        ldap_con = initialize_ldap_con(self.account, self.account_password)
+      end
 
       ops = [[:replace, :unicodePwd, AuthSourceLdapPasswd.str2unicodePwd(new_password)]]
       ldap_con.modify :dn => attrs[:dn], :operations => ops
