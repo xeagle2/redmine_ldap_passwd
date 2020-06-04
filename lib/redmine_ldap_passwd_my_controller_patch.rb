@@ -7,7 +7,12 @@ module RedmineLdapPasswd
       base.class_eval do
         unloadable # Send unloadable so it will not be unloaded in development
 
-        alias_method_chain :password, :extension
+        if Rails::VERSION::MAJOR >= 5
+          alias_method :password_without_extension, :password
+          alias_method :password, :password_with_extension
+        else
+          alias_method_chain :password, :extension
+        end
       end
     end
 

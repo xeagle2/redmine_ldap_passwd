@@ -6,7 +6,12 @@ module RedmineLdapPasswd
       base.class_eval do
         unloadable # Send unloadable so it will not be unloaded in development
 
-        alias_method_chain :auth_source_partial_name, :ignored_passwd
+        if Rails::VERSION::MAJOR >= 5
+          alias_method :auth_source_partial_name_without_ignored_passwd, :auth_source_partial_name
+          alias_method :auth_source_partial_name, :auth_source_partial_name_with_ignored_passwd
+        else
+          alias_method :auth_source_partial_name, :ignored_passwd
+        end
       end
     end
 
