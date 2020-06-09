@@ -11,6 +11,11 @@ Redmine::Plugin.register :redmine_ldap_passwd do
   version '3.0.1'
   url 'https://github.com/xeagle2/redmine_ldap_passwd'
   author_url 'https://github.com/xeagle2'
+
+  settings :partial => 'settings/ldap_password',
+    :default => {
+      :use_user_account => true
+    }
 end
 
 require 'dispatcher' unless Rails::VERSION::MAJOR >= 3

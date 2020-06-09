@@ -8,8 +8,10 @@ class AuthSourceLdapPasswd < AuthSourceLdap
 
     attrs = get_user_dn(user.login, password)
     if attrs && attrs[:dn]
-      if self.account && self.account.include?("$login")
-        ldap_con = initialize_ldap_con(self.account.sub("$login", Net::LDAP::DN.escape(user.login)), password)
+      defaults = Redmine::Plugin::registered_plugins[:redmine_ldap_passwd].settings[:default]
+      suua = Setting.plugin_redmine_ldap_passwd[:use_user_account].nil? ? defaults[:use_user_account] : Setting.plugin_redmine_ldap_passwd[:use_user_account]
+      if suua || ( self.account && self.account.include?("$login") )
+        ldap_con = initialize_ldap_con(suua ? Net::LDAP::DN.escape(user.login) : self.account.sub("$login", Net::LDAP::DN.escape(user.login)), password)
       else
         ldap_con = initialize_ldap_con(self.account, self.account_password)
       end
@@ -24,6 +26,7 @@ class AuthSourceLdapPasswd < AuthSourceLdap
 
         return true
       else
+        Rails.logger.info "Change password problem: #{result}."
         return result
       end
     end
