@@ -1,3 +1,8 @@
 en:
   notice_new_password_and_confirmation_different: The new password is different from the confirmation password
   notice_new_password_format: "1. The password should be at least seven characters long. 2. The password should contain characters from at least three of the following four categories: (a) English uppercase characters (A - Z) (b) English lowercase characters (a - z) (c) Base 10 digits (0 - 9) (d) Non-alphanumeric (For example: !, $, or %). 3. The password shouldn't contain three or more characters from the user's account name."
+  notice_can_t_change_password: "Can`t change password."
+  notice_account_wrong_password: "Wrong password or username"
+  notice_new_password_must_be_different: "New password must be different."
+  notice_account_password_updated: "Account pasword updated."
+  setting_use_user_account: "Use current user acoount for LDAP:"
